@@ -1,0 +1,29 @@
+{
+  "resources": [
+    {
+      "alt": "black-adam",
+      "imageUrl": "./movies/black-adam.png"
+    },
+    {
+      "title": "dark-knight",
+      "imageUrl": "./movies/dark-knight.png"
+    },
+    {
+      "title": "fast-and-furious-hobbs-and-shaw",
+      "imageUrl": "./movies/fast-and-furious-hobbs-and-shaw.png"
+    },
+    {
+      "title": "game-of-thrones",
+      "imageUrl": "./movies/game-of-thrones.png"
+    },
+    {
+      "title": "house-of-the-dragon",
+      "imageUrl": "./movies/house-of-the-dragon.png"
+    },
+    {
+      "title": "iron-man",
+      "imageUrl": "./movies/iron-man.png"
+    }
+    
+  ]
+}
