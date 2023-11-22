@@ -24,7 +24,7 @@ export const CarouselItem = ({ item }) => {
   }, []);
 
   let elementsToShow = 3;
-
+  // Set the number of Cards to Display based on the view port
   if (windowSize.width <= 480) {
     elementsToShow = 1;
   } else if (windowSize.width > 480 && windowSize.width <= 768) {
@@ -33,20 +33,20 @@ export const CarouselItem = ({ item }) => {
     elementsToShow = 3;
   }
 
-  //console.log("Width & Height", windowSize.width);
-  const sliderContainer = useRef(null); // create the ref for Slider Container
-  const slider = useRef(null); // create the ref for Slider
-  const elementRef = useRef(); // create the ref for Slider Element cards
-  const [cardIndex, setCardIndex] = useState(0); // set state for CardIndex using Dot button
-  const [cardLength, setCardLength] = useState(0);
+  // Create Reference for Slider Container, Slider and Card Components
+  const sliderContainer = useRef(null);
+  const slider = useRef(null);
+  const cardRef = useRef();
+
+  // Set sate for CardIndex, Card Length and Slider container width
+  const [cardIndex, setCardIndex] = useState(0);
+  const [cardLength, setCardLength] = useState(data.resources.length);
   const [sliderContainerWidth, setSliderContainerWidth] = useState(0);
 
+  // Calculate the Card Width based on the Total Slider Container width and the element to Show
   let cardWidth = sliderContainerWidth / elementsToShow;
-  console.log("sliderContainerWidth", sliderContainerWidth);
-  console.log("cardLength", cardLength);
-  console.log("elementsToShow", elementsToShow);
-  console.log("cardWidth", cardWidth);
 
+  // Logic for Left Arrow
   const movePrev = () => {
     //console.log("Prev" );
     console.log(
@@ -62,6 +62,7 @@ export const CarouselItem = ({ item }) => {
         +slider.current.style.marginLeft.slice(0, -2) - cardWidth + "px";
   };
 
+  // Logic for Right Arrow
   const moveNext = () => {
     //console.log("Next");
     console.log(
@@ -91,32 +92,22 @@ export const CarouselItem = ({ item }) => {
     }
   }, [cardIndex]);
 
+  // UseEffect to set the slider width
   useEffect(() => {
-    // after mounting
     // Get the Slider Container Width from the Container Ref ans set in state
-
-    let sliderContainerWidth = sliderContainer.current.clientWidth;
-    setSliderContainerWidth(sliderContainerWidth);
-    // Set the Card length in state
-    setCardLength(data.resources.length);
-
-    //slider.current.style.width = cardLength*cardWidth+'px';
-    // console.log("width",elementsToShow*cardWidth+'px');
-
-    console.log("sliderContainer", sliderContainer.current); // logs <div sliderContainer></div>
-    console.log("slider", slider.current); // logs <ul slider></ul>
-    console.log("cards", elementRef.current); // logs <li cards></li>
-
+    setSliderContainerWidth(sliderContainer.current.clientWidth);
+    // Set style for the slider (width,transition,transition duration) using its reference
     slider.current.style.width = cardLength * cardWidth + "px";
     slider.current.style.transition = "margin";
     slider.current.style.transitionDuration = "1s";
-    console.log("width", cardLength * cardWidth + "px");
-    elementRef.current.style.width = cardWidth + "px";
+    // Set style for Card Element using its reference
+    cardRef.current.style.width = cardWidth + "px";
   }, [cardWidth]);
 
   return (
     <section>
       <div className="flex">
+        {/* Left arrow Div start */}
         <div className="w-2/12 flex items-center">
           <div className="w-full text-right">
             <button
@@ -127,7 +118,8 @@ export const CarouselItem = ({ item }) => {
             </button>
           </div>
         </div>
-        {/* Slider Container Div */}
+        {/* Left arrow Div Ends */}
+        {/* Slider Container Div Starts*/}
         <div
           id="sliderContainer"
           ref={sliderContainer}
@@ -136,10 +128,12 @@ export const CarouselItem = ({ item }) => {
           {/* Outer Place Holder Div for Slider Items (Actuall Slider)*/}
           <ul id="slider" ref={slider} className="flex w-full">
             {data.resources.map((resource, index) => {
-              return <Item item={resource} key={index} ref={elementRef} />;
+              return <Item item={resource} key={index} ref={cardRef} />;
             })}
           </ul>
         </div>
+        {/* Slider Container Div Starts*/}
+        {/* Right arrow Div Starts */}
         <div className="w-2/12 flex items-center">
           <div className="w-full">
             <button
@@ -150,15 +144,15 @@ export const CarouselItem = ({ item }) => {
             </button>
           </div>
         </div>
+        {/* Right arrow Div Ends */}
       </div>
+      {/* Bottom Dots Div Starts */}
       <div className="flex justify-center items-center space-x-5">
         {data.resources.map((_, index) => (
           <div className="w-4 h-4 rounded-full cursor-pointer">
             <button
               key={index}
               className="flex"
-              aria-label={`View Image ${index + 1}`}
-              //onClick={moveCurrent(index)}
               onClick={() => moveCurrent(index)}
             >
               <svg
@@ -176,10 +170,12 @@ export const CarouselItem = ({ item }) => {
           </div>
         ))}{" "}
       </div>
+      {/* Bottom Dots Div Starts */}
     </section>
   );
 };
 
+// Creating a Ref for Each Cards using forwardRef
 const Item = forwardRef(function (props, ref) {
   return (
     <li className="w-96 p-5" ref={ref}>
