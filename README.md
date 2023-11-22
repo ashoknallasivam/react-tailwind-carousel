@@ -1,5 +1,7 @@
 ## React / Tailwind simple Carousel
 
+Demo : https://learnwithus.com.au/
+
 This straightforward carousel is created with React JS and Tailwind. Utilizing Tailwind can significantly streamline the process of writing CSS classes and enhance the responsiveness of your application with ease.
 
 While there are various approaches to constructing a carousel, employing React and JavaScript plugins is a common practice. However, in this instance, I've harnessed the power of Tailwind features, along with React's hooks and refs, to build the carousel without using any third party plugins
