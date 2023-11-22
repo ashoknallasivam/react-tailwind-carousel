@@ -4,6 +4,30 @@ This straightforward carousel is created with React JS and Tailwind. Utilizing T
 
 While there are various approaches to constructing a carousel, employing React and JavaScript plugins is a common practice. However, in this instance, I've harnessed the power of Tailwind features, along with React's hooks and refs, to build the carousel without using any third party plugins
 
+### Set up Basic Reach Boiler Plate using Create react App
+
+You’ll need to have Node >= 14 on your local development machine (but it’s not required on the server). You can use nvm (macOS/Linux) or nvm-windows to switch Node versions between different projects.
+
+To create a new app, you may choose one of the following methods:
+
+npx
+```
+# Install Create React App globally if you haven't already
+npx create-react-app my-react-app
+
+# Change directory to your newly created app
+cd my-react-app
+
+# Start the development server
+npm start
+
+```
+This will set up a basic React project using Create React App. You can replace "my-react-app" with the desired name for your project. After running these commands, you can open your browser and navigate to http://localhost:3000 to see your basic React app in action.
+
+### Setting up Tailwind CSS in a Create React App project.
+
+https://tailwindcss.com/docs/guides/create-react-app
+
 ### Create Carousel component 
 
 Creating a functional component. We will be passing a Json array of image URLs with title as a prop. We can also create a reference of the DOM elements using Ref in react.
@@ -26,10 +50,6 @@ Creating a functional component. We will be passing a Json array of image URLs w
 
 
 
-
-
-### Set up Basic Reach Boiler Plate using Create react App
-### Adding tailwind CSS using documentation https://tailwindcss.com/docs/guides/create-react-app
 ### Remove unwanted code and CSS from the App.js and App.css and index.js
 ### Create 2 basic react component callled Carousel.jsx, CarouselItem.jsx
 ### import the CarouselItem component in to the Carousel component 
