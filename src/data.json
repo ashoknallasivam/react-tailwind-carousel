@@ -23,6 +23,18 @@
     {
       "title": "iron-man",
       "imageUrl": "./movies/iron-man.png"
+    },
+    {
+      "title": "jungle-cruise",
+      "imageUrl": "./movies/jungle-cruise.png"
+    },
+    {
+      "title": "logan",
+      "imageUrl": "./movies/logan.jpeg"
+    },
+    {
+      "title": "man-of-steel",
+      "imageUrl": "./movies/man-of-steel.png"
     }
     
   ]

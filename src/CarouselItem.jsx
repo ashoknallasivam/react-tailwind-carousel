@@ -37,21 +37,21 @@ export const CarouselItem = ({ item }) => {
   const sliderContainer = useRef(null);
   const slider = useRef(null);
   const cardRef = useRef();
-
+  
   // Set sate for CardIndex, Card Length and Slider container width
   const [cardIndex, setCardIndex] = useState(0);
   const [cardLength, setCardLength] = useState(data.resources.length);
   const [sliderContainerWidth, setSliderContainerWidth] = useState(0);
 
   // Calculate the Card Width based on the Total Slider Container width and the element to Show
-  let cardWidth = sliderContainerWidth / elementsToShow;
+  let cardWidth = Math.round(sliderContainerWidth / elementsToShow);
 
   // Logic for Left Arrow
   const movePrev = () => {
     //console.log("Prev" );
     console.log("cardIndexPrev", cardIndex);
     if (cardIndex < cardLength - elementsToShow) {
-      setCardIndex(cardIndex + 1);
+      setCardIndex((prevState) => prevState + 1);
     }
   };
 
@@ -60,7 +60,7 @@ export const CarouselItem = ({ item }) => {
     //console.log("Next");
     console.log("cardIndexNext", cardIndex);
     if (cardIndex > 0) {
-      setCardIndex(cardIndex - 1);
+      setCardIndex((prevState) => prevState - 1);
     }
   };
 
@@ -93,11 +93,9 @@ export const CarouselItem = ({ item }) => {
     // Get the Slider Container Width from the Container Ref ans set in state
     setSliderContainerWidth(sliderContainer.current.clientWidth);
     // Set style for the slider (width,transition,transition duration) using its reference
-    slider.current.style.width = cardLength * cardWidth + "px";
+    slider.current.style.width = cardLength * cardWidth +"px";
     slider.current.style.transition = "margin";
     slider.current.style.transitionDuration = "1s";
-    // Set style for Card Element using its reference
-    cardRef.current.style.width = cardWidth + "px";
   }, [cardWidth]);
 
   return (
@@ -110,7 +108,7 @@ export const CarouselItem = ({ item }) => {
               onClick={movePrev}
               className="p-3 rounded-lg bg-white border border-gray-100 shadow-lg mr-5"
             >
-              <img src={leftArrow} alt="" />
+              <img src={leftArrow} alt="Previous" />
             </button>
           </div>
         </div>
@@ -124,6 +122,7 @@ export const CarouselItem = ({ item }) => {
           {/* Outer Place Holder Div for Slider Items (Actuall Slider)*/}
           <ul id="slider" ref={slider} className="flex w-full">
             {data.resources.map((resource, index) => {
+              
               return <Item item={resource} key={index} ref={cardRef} />;
             })}
           </ul>
@@ -136,7 +135,7 @@ export const CarouselItem = ({ item }) => {
               onClick={moveNext}
               className="p-3 rounded-lg bg-white border border-gray-100 shadow-lg ml-5"
             >
-              <img src={rightArrow} alt="" />
+              <img src={rightArrow} alt="Next" />
             </button>
           </div>
         </div>
@@ -152,15 +151,10 @@ export const CarouselItem = ({ item }) => {
               onClick={() => moveCurrent(index)}
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="10"
-                height="10"
+                className="text-gray-500 fill-current h-3 w-3"
                 viewBox="0 0 1536 1536"
               >
-                <path
-                  fill="currentColor"
-                  d="M1024 768q0 106-75 181t-181 75t-181-75t-75-181t75-181t181-75t181 75t75 181zM768 224q-148 0-273 73T297 495t-73 273t73 273t198 198t273 73t273-73t198-198t73-273t-73-273t-198-198t-273-73zm768 544q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768z"
-                />
+                <path d="M1024 768q0 106-75 181t-181 75t-181-75t-75-181t75-181t181-75t181 75t75 181zM768 224q-148 0-273 73T297 495t-73 273t73 273t198 198t273 73t273-73t198-198t73-273t-73-273t-198-198t-273-73zm768 544q0 209-103 385.5T1153.5 1433T768 1536t-385.5-103T103 1153.5T0 768t103-385.5T382.5 103T768 0t385.5 103T1433 382.5T1536 768z" />
               </svg>
             </button>
           </div>
