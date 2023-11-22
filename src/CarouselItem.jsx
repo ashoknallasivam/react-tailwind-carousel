@@ -75,10 +75,16 @@ export const CarouselItem = ({ item }) => {
   };
 
   const moveCurrent = (newIndex) => {
-    if (newIndex < 0) {
-      newIndex = 0;
-    } else if (newIndex >= cardLength) {
-      newIndex = cardLength - 1;
+    // Dot buttons will work only when button is greater than one and less the last 2 buttons
+    if (newIndex === cardLength-1 || newIndex === cardLength-2) {
+      console.log("elementsToShow", elementsToShow);
+      console.log("newIndex",newIndex);
+      if(elementsToShow === 2){
+        newIndex = cardLength - elementsToShow ;
+      } else if (elementsToShow === 3){
+        newIndex = cardLength - elementsToShow ;
+      }
+      
     }
     setCardIndex(newIndex);
   };
