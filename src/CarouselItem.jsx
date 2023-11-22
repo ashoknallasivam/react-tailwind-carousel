@@ -49,46 +49,36 @@ export const CarouselItem = ({ item }) => {
   // Logic for Left Arrow
   const movePrev = () => {
     //console.log("Prev" );
-    console.log(
-      "Intitial Margin",
-      Math.ceil(+slider.current.style.marginLeft.slice(0, -2))
-    );
-    console.log("Max margin", cardWidth * (cardLength - elementsToShow));
-    if (
-      Math.ceil(+slider.current.style.marginLeft.slice(0, -2)) !=
-      -cardWidth * (cardLength - elementsToShow)
-    )
-      slider.current.style.marginLeft =
-        +slider.current.style.marginLeft.slice(0, -2) - cardWidth + "px";
+    console.log("cardIndexPrev", cardIndex);
+    if (cardIndex < cardLength - elementsToShow) {
+      setCardIndex(cardIndex + 1);
+    }
   };
 
   // Logic for Right Arrow
   const moveNext = () => {
     //console.log("Next");
-    console.log(
-      "Intitial Margin",
-      Math.ceil(+slider.current.style.marginLeft.slice(0, -2))
-    );
-    if (+Math.ceil(slider.current.style.marginLeft.slice(0, -2)) !== 0)
-      slider.current.style.marginLeft =
-        +slider.current.style.marginLeft.slice(0, -2) + cardWidth + "px";
+    console.log("cardIndexNext", cardIndex);
+    if (cardIndex > 0) {
+      setCardIndex(cardIndex - 1);
+    }
   };
 
   const moveCurrent = (newIndex) => {
     // Dot buttons will work only when button is greater than one and less the last 2 buttons
-    if (newIndex === cardLength-1 || newIndex === cardLength-2) {
+    if (newIndex === cardLength - 1 || newIndex === cardLength - 2) {
       console.log("elementsToShow", elementsToShow);
-      console.log("newIndex",newIndex);
-      if(elementsToShow === 2){
-        newIndex = cardLength - elementsToShow ;
-      } else if (elementsToShow === 3){
-        newIndex = cardLength - elementsToShow ;
+      console.log("newIndex", newIndex);
+      if (elementsToShow === 2) {
+        newIndex = cardLength - elementsToShow;
+      } else if (elementsToShow === 3) {
+        newIndex = cardLength - elementsToShow;
       }
-      
     }
     setCardIndex(newIndex);
   };
 
+  // UseEffect to move the slider to the particular Index
   useEffect(() => {
     console.log("Index", cardIndex);
     if (cardIndex <= 0) {
