@@ -178,7 +178,7 @@ const Item = forwardRef(function (props, ref) {
       <div className="border rounded-lg p-5 h-full">
         <img
           className="h-30 w-full object-cover rounded-md"
-          alt={props.item.alt}
+          alt={props.item.title}
           src={require(`${props.item.imageUrl}`)}
         />
       </div>
