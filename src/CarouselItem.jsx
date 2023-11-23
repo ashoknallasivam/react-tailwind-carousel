@@ -3,10 +3,8 @@ import { useState, useRef, useEffect, forwardRef } from "react";
 import leftArrow from "./imgs/angle-left.png";
 import rightArrow from "./imgs/angle-right.png";
 
-// Data
-import data from "./data.json";
-
-export const CarouselItem = ({ item }) => {
+export const CarouselItem = ({ data }) => {
+  console.log("item", data);
   // the size of the window in the beginning
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -46,6 +44,17 @@ export const CarouselItem = ({ item }) => {
 
   // Calculate the Card Width based on the Total Slider Container width and the element to Show
   let cardWidth = Math.round(sliderContainerWidth / elementsToShow);
+
+  const isDisabled = (direction) => {
+    if (direction === "next") {
+      return cardIndex <= 0;
+    }
+    if (direction === "prev") {
+      return cardIndex >= cardLength - elementsToShow;
+    }
+    return false;
+  };
+
   // Function to reset all the SVG button color
   const buttonReset = () => {
     for (var i = 0; i < cardLength; i++) {
@@ -58,24 +67,16 @@ export const CarouselItem = ({ item }) => {
   };
   // Logic for Left Arrow
   const movePrev = () => {
-    //console.log("Prev" );
     buttonReset();
-    console.log("cardIndexPrev", cardIndex);
-    if (cardIndex < cardLength - elementsToShow) {
-      setCardIndex((prevState) => prevState + 1);
-    }
+    setCardIndex((prevState) => prevState + 1);
     activeButton(cardIndex + 1);
   };
 
   // Logic for Right Arrow
   const moveNext = () => {
-    //console.log("Next");
-    console.log("cardIndexNext", cardIndex);
-    if (cardIndex > 0) {
-      buttonReset();
-      setCardIndex((prevState) => prevState - 1);
-      activeButton(cardIndex - 1);
-    }
+    buttonReset();
+    setCardIndex((prevState) => prevState - 1);
+    activeButton(cardIndex - 1);
   };
 
   const moveCurrent = (newIndex) => {
@@ -123,8 +124,9 @@ export const CarouselItem = ({ item }) => {
         <div className="w-2/12 flex items-center">
           <div className="w-full text-right">
             <button
-              onClick={movePrev}
-              className="p-3 rounded-lg bg-white border border-gray-100 shadow-lg mr-5"
+              onClick={moveNext}
+              className="p-3 rounded-lg bg-white border border-gray-100 shadow-md mr-5"
+              disabled={isDisabled("next")}
             >
               <img src={leftArrow} alt="Previous" />
             </button>
@@ -140,7 +142,7 @@ export const CarouselItem = ({ item }) => {
           {/* Outer Place Holder Div for Slider Items (Actuall Slider)*/}
           <ul id="slider" ref={slider} className="flex w-full">
             {data.resources.map((resource, index) => {
-              return <Item item={resource} key={index} ref={cardRef} />;
+              return <CardItems item={resource} key={index} ref={cardRef} />;
             })}
           </ul>
         </div>
@@ -149,8 +151,9 @@ export const CarouselItem = ({ item }) => {
         <div className="w-2/12 flex items-center">
           <div className="w-full">
             <button
-              onClick={moveNext}
+              onClick={movePrev}
               className="p-3 rounded-lg bg-white border border-gray-100 shadow-lg ml-5"
+              disabled={isDisabled("prev")}
             >
               <img src={rightArrow} alt="Next" />
             </button>
@@ -184,10 +187,10 @@ export const CarouselItem = ({ item }) => {
 };
 
 // Creating a Ref for Each Cards using forwardRef
-const Item = forwardRef(function (props, ref) {
+const CardItems = forwardRef(function (props, ref) {
   return (
     <li className="w-96 p-5" ref={ref}>
-      <div className="border rounded-lg p-5 shadow-md h-full">
+      <div className="border rounded-lg p-5 shadow-md3 h-full">
         <img
           className="h-30 w-full object-cover rounded-md"
           alt={props.item.title}
