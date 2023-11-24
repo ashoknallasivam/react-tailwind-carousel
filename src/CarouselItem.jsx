@@ -51,22 +51,34 @@ export const CarouselItem = ({ data }) => {
   const touchStartHandler = (event) => {
     console.log("SwiperStart", event.targetTouches[0].clientX);
     setTouchStartPosition(event.targetTouches[0].clientX);
-    setTouchEndPosition(event.targetTouches[0].clientX);
   };
   const touchMoveHandler = (event) => {
     console.log("SwiperMove", event.targetTouches[0].clientX);
+    console.log("SliderWidth", slider.current.style.width);
+    console.log("CardRef", cardRef);
     setTouchEndPosition(event.targetTouches[0].clientX);
+    const sliderWidth = slider.current.offsetWidth;
+    const translateDis =
+      ((touchEndPosition - touchStartPosition) / sliderWidth) * 100;
+    slider.current.style.transform = `translateX(` + translateDis + `%)`;
+    //slider.current.style.animation="[slide-right_1s_ease-in-out]"
+    console.log("translateDis", translateDis);
   };
   const touchEndHandler = (event) => {
     //console.log("SwiperEnd",event);
+    console.log("touchStartPosition", touchStartPosition);
+    console.log("touchEndPosition", touchEndPosition);
+
     if (touchStartPosition < touchEndPosition && cardIndex > 0) {
       moveNext();
+      slider.current.style.transform = `translateX(` + 0 + `%)`;
     }
     if (
       touchStartPosition > touchEndPosition &&
       cardIndex < cardLength - elementsToShow
     ) {
       movePrev();
+      slider.current.style.transform = `translateX(` + 0 + `%)`;
     }
   };
 
@@ -193,12 +205,16 @@ export const CarouselItem = ({ data }) => {
           id="sliderContainer"
           ref={sliderContainer}
           className="w-10/12 overflow-hidden"
-          onTouchStart={(e) => touchStartHandler(e)}
-          onTouchMove={(e) => touchMoveHandler(e)}
-          onTouchEnd={(e) => touchEndHandler(e)}
         >
           {/* Outer Place Holder Div for Slider Items (Actuall Slider)*/}
-          <ul id="slider" ref={slider} className="flex w-full">
+          <ul
+            id="slider"
+            ref={slider}
+            className="flex w-full"
+            onTouchStart={(e) => touchStartHandler(e)}
+            onTouchMove={(e) => touchMoveHandler(e)}
+            onTouchEnd={(e) => touchEndHandler(e)}
+          >
             {data.resources.map((resource, index) => {
               return <CardItems item={resource} key={index} ref={cardRef} />;
             })}
