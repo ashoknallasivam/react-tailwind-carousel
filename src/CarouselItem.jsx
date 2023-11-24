@@ -45,6 +45,28 @@ export const CarouselItem = ({ data }) => {
   // Calculate the Card Width based on the Total Slider Container width and the element to Show
   let cardWidth = Math.round(sliderContainerWidth / elementsToShow);
 
+  // Logic for Right Arrow
+  const keyPressHandler = (event) => {
+    buttonReset();
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      if (cardIndex > 0) {
+        moveNext();
+      }
+      return;
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      //console.log("KeyRight")
+      //console.log("cardIndex", cardIndex);
+      if (cardIndex < cardLength - elementsToShow) {
+        movePrev();
+      }
+      return;
+    }
+  };
+
   const isDisabled = (direction) => {
     if (direction === "next") {
       return cardIndex <= 0;
@@ -96,6 +118,14 @@ export const CarouselItem = ({ data }) => {
     console.log("current_current", buttonRef.current[newIndex].current);
     setCardIndex(newIndex);
   };
+
+  // UseEffect to handle the Keypress events
+  useEffect(() => {
+    document.addEventListener("keydown", keyPressHandler);
+    return () => {
+      document.removeEventListener("keydown", keyPressHandler);
+    };
+  }, [cardIndex]);
 
   // UseEffect to move the slider to the particular Index
   useEffect(() => {
