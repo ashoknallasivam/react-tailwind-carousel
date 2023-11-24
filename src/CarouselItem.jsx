@@ -41,9 +41,34 @@ export const CarouselItem = ({ data }) => {
   const [cardIndex, setCardIndex] = useState(0);
   const [cardLength, setCardLength] = useState(data.resources.length);
   const [sliderContainerWidth, setSliderContainerWidth] = useState(0);
+  const [touchStartPosition, setTouchStartPosition] = useState(0);
+  const [touchEndPosition, setTouchEndPosition] = useState(0);
 
   // Calculate the Card Width based on the Total Slider Container width and the element to Show
   let cardWidth = Math.round(sliderContainerWidth / elementsToShow);
+
+  // Logic for Touch Swipe
+  const touchStartHandler = (event) => {
+    console.log("SwiperStart", event.targetTouches[0].clientX);
+    setTouchStartPosition(event.targetTouches[0].clientX);
+    setTouchEndPosition(event.targetTouches[0].clientX);
+  };
+  const touchMoveHandler = (event) => {
+    console.log("SwiperMove", event.targetTouches[0].clientX);
+    setTouchEndPosition(event.targetTouches[0].clientX);
+  };
+  const touchEndHandler = (event) => {
+    //console.log("SwiperEnd",event);
+    if (touchStartPosition < touchEndPosition && cardIndex > 0) {
+      moveNext();
+    }
+    if (
+      touchStartPosition > touchEndPosition &&
+      cardIndex < cardLength - elementsToShow
+    ) {
+      movePrev();
+    }
+  };
 
   // Logic for Right Arrow
   const keyPressHandler = (event) => {
@@ -168,6 +193,9 @@ export const CarouselItem = ({ data }) => {
           id="sliderContainer"
           ref={sliderContainer}
           className="w-10/12 overflow-hidden"
+          onTouchStart={(e) => touchStartHandler(e)}
+          onTouchMove={(e) => touchMoveHandler(e)}
+          onTouchEnd={(e) => touchEndHandler(e)}
         >
           {/* Outer Place Holder Div for Slider Items (Actuall Slider)*/}
           <ul id="slider" ref={slider} className="flex w-full">
